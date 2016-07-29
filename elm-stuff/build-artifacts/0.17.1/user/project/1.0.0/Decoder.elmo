@@ -3,13 +3,16 @@ var _user$project$Decoder$Bar = function (a) {
 	return {ctor: 'Bar', _0: a};
 };
 var _user$project$Decoder$decode = A2(
-	_elm_lang$core$Json_Decode$andThen,
-	A2(_elm_lang$core$Json_Decode_ops[':='], 'type', _elm_lang$core$Json_Decode$string),
-	function (_p0) {
-		return A2(
-			_elm_lang$core$Json_Decode$object1,
-			_user$project$Decoder$Bar,
-			A2(_elm_lang$core$Json_Decode_ops[':='], 'name', _elm_lang$core$Json_Decode$string));
-	});
+	_elm_lang$core$Json_Decode_ops[':='],
+	'type',
+	A2(
+		_elm_lang$core$Json_Decode$andThen,
+		_elm_lang$core$Json_Decode$string,
+		function (_p0) {
+			return A2(
+				_elm_lang$core$Json_Decode$object1,
+				_user$project$Decoder$Bar,
+				A2(_elm_lang$core$Json_Decode_ops[':='], 'name', _elm_lang$core$Json_Decode$string));
+		}));
 var _user$project$Decoder$decoded = A2(_elm_lang$core$Json_Decode$decodeString, _user$project$Decoder$decode, _user$project$Decoder$barJson);
 var _user$project$Decoder$_p1 = A2(_elm_lang$core$Debug$log, 'decoded?', _user$project$Decoder$decoded);
