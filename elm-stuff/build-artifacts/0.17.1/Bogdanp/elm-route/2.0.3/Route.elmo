@@ -1,0 +1,324 @@
+var _Bogdanp$elm_route$Route$match = F2(
+	function (_p0, path) {
+		var _p1 = _p0;
+		var _p2 = _elm_lang$core$String$uncons(path);
+		if (((_p2.ctor === 'Just') && (_p2._0.ctor === '_Tuple2')) && (_p2._0._0.valueOf() === '/')) {
+			return function (_p3) {
+				return _elm_lang$core$Result$toMaybe(
+					_elm_lang$core$Basics$fst(_p3));
+			}(
+				A2(_Bogdanp$elm_combine$Combine$parse, _p1._0, _p2._0._1));
+		} else {
+			return _elm_lang$core$Maybe$Nothing;
+		}
+	});
+var _Bogdanp$elm_route$Route$unroute = function (_p4) {
+	var _p5 = _p4;
+	return _p5._0;
+};
+var _Bogdanp$elm_route$Route$parser = function (_p6) {
+	return function (_) {
+		return _.parser;
+	}(
+		_Bogdanp$elm_route$Route$unroute(_p6));
+};
+var _Bogdanp$elm_route$Route$components = function (_p7) {
+	return function (_) {
+		return _.components;
+	}(
+		_Bogdanp$elm_route$Route$unroute(_p7));
+};
+var _Bogdanp$elm_route$Route$reverse = F2(
+	function (r, inputs) {
+		var accumulate = F3(
+			function (cs, is, xs) {
+				accumulate:
+				while (true) {
+					var _p8 = {ctor: '_Tuple2', _0: is, _1: xs};
+					_v3_6:
+					do {
+						if (_p8.ctor === '_Tuple2') {
+							if (_p8._1.ctor === '[]') {
+								if (_p8._0.ctor === '[]') {
+									return A2(
+										_elm_lang$core$Basics_ops['++'],
+										'/',
+										A2(
+											_elm_lang$core$String$join,
+											'/',
+											_elm_lang$core$List$reverse(cs)));
+								} else {
+									break _v3_6;
+								}
+							} else {
+								switch (_p8._1._0.ctor) {
+									case 'CPrefix':
+										var _v4 = A2(_elm_lang$core$List_ops['::'], _p8._1._0._0, cs),
+											_v5 = is,
+											_v6 = _p8._1._1;
+										cs = _v4;
+										is = _v5;
+										xs = _v6;
+										continue accumulate;
+									case 'CSuffix':
+										var _v7 = A2(_elm_lang$core$List_ops['::'], _p8._1._0._0, cs),
+											_v8 = is,
+											_v9 = _p8._1._1;
+										cs = _v7;
+										is = _v8;
+										xs = _v9;
+										continue accumulate;
+									case 'CCustom':
+										if (_p8._0.ctor === '::') {
+											var _p11 = _p8._0._0;
+											var _p9 = _p8._1._0._0(_p11);
+											if (_p9.ctor === 'Ok') {
+												var _v11 = A2(_elm_lang$core$List_ops['::'], _p11, cs),
+													_v12 = _p8._0._1,
+													_v13 = _p8._1._1;
+												cs = _v11;
+												is = _v12;
+												xs = _v13;
+												continue accumulate;
+											} else {
+												return _elm_lang$core$Native_Utils.crashCase(
+													'Route',
+													{
+														start: {line: 495, column: 11},
+														end: {line: 500, column: 86}
+													},
+													_p9)(
+													A2(
+														_elm_lang$core$Basics_ops['++'],
+														_p9._0,
+														A2(
+															_elm_lang$core$Basics_ops['++'],
+															' in a call to \'reverse\' but received \'',
+															A2(_elm_lang$core$Basics_ops['++'], _p11, '\''))));
+											}
+										} else {
+											break _v3_6;
+										}
+									case 'CString':
+										if (_p8._0.ctor === '::') {
+											var _v14 = A2(_elm_lang$core$List_ops['::'], _p8._0._0, cs),
+												_v15 = _p8._0._1,
+												_v16 = _p8._1._1;
+											cs = _v14;
+											is = _v15;
+											xs = _v16;
+											continue accumulate;
+										} else {
+											break _v3_6;
+										}
+									default:
+										if (_p8._0.ctor === '::') {
+											var _p13 = _p8._0._0;
+											var _p12 = _elm_lang$core$String$toInt(_p13);
+											if (_p12.ctor === 'Ok') {
+												var _v18 = A2(_elm_lang$core$List_ops['::'], _p13, cs),
+													_v19 = _p8._0._1,
+													_v20 = _p8._1._1;
+												cs = _v18;
+												is = _v19;
+												xs = _v20;
+												continue accumulate;
+											} else {
+												return A2(
+													_elm_lang$core$Basics_ops['++'],
+													_elm_lang$core$Native_Utils.crash(
+														'Route',
+														{
+															start: {line: 511, column: 15},
+															end: {line: 511, column: 26}
+														})(_p12._0),
+													' in a call to \'reverse\'');
+											}
+										} else {
+											break _v3_6;
+										}
+								}
+							}
+						} else {
+							break _v3_6;
+						}
+					} while(false);
+					return _elm_lang$core$Native_Utils.crashCase(
+						'Route',
+						{
+							start: {line: 484, column: 7},
+							end: {line: 514, column: 80}
+						},
+						_p8)('\'reverse\' called with an unexpected number of arguments');
+				}
+			});
+		return A3(
+			accumulate,
+			_elm_lang$core$Native_List.fromArray(
+				[]),
+			inputs,
+			_Bogdanp$elm_route$Route$components(r));
+	});
+var _Bogdanp$elm_route$Route$CInt = {ctor: 'CInt'};
+var _Bogdanp$elm_route$Route$CString = {ctor: 'CString'};
+var _Bogdanp$elm_route$Route$CCustom = function (a) {
+	return {ctor: 'CCustom', _0: a};
+};
+var _Bogdanp$elm_route$Route$CSuffix = function (a) {
+	return {ctor: 'CSuffix', _0: a};
+};
+var _Bogdanp$elm_route$Route$CPrefix = function (a) {
+	return {ctor: 'CPrefix', _0: a};
+};
+var _Bogdanp$elm_route$Route$Route = function (a) {
+	return {ctor: 'Route', _0: a};
+};
+var _Bogdanp$elm_route$Route$route = F2(
+	function (f, r) {
+		return _Bogdanp$elm_route$Route$Route(
+			{
+				parser: A2(
+					_Bogdanp$elm_combine$Combine_Infix_ops['<$>'],
+					f,
+					_Bogdanp$elm_route$Route$parser(r)),
+				components: _Bogdanp$elm_route$Route$components(r)
+			});
+	});
+var _Bogdanp$elm_route$Route_ops = _Bogdanp$elm_route$Route_ops || {};
+_Bogdanp$elm_route$Route_ops[':='] = _Bogdanp$elm_route$Route$route;
+var _Bogdanp$elm_route$Route$prefix = F2(
+	function (s, r) {
+		return _Bogdanp$elm_route$Route$Route(
+			{
+				parser: A2(
+					_Bogdanp$elm_combine$Combine_Infix_ops['*>'],
+					_Bogdanp$elm_combine$Combine$string(
+						A2(_elm_lang$core$Basics_ops['++'], s, '/')),
+					_Bogdanp$elm_route$Route$parser(r)),
+				components: A2(
+					_elm_lang$core$Basics_ops['++'],
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_Bogdanp$elm_route$Route$CPrefix(s)
+						]),
+					_Bogdanp$elm_route$Route$components(r))
+			});
+	});
+var _Bogdanp$elm_route$Route_ops = _Bogdanp$elm_route$Route_ops || {};
+_Bogdanp$elm_route$Route_ops['<//>'] = _Bogdanp$elm_route$Route$prefix;
+var _Bogdanp$elm_route$Route$suffix = F2(
+	function (s, r) {
+		return _Bogdanp$elm_route$Route$Route(
+			{
+				parser: A2(
+					_Bogdanp$elm_combine$Combine_Infix_ops['<*'],
+					_Bogdanp$elm_route$Route$parser(r),
+					_Bogdanp$elm_combine$Combine$string(
+						A2(_elm_lang$core$Basics_ops['++'], '/', s))),
+				components: A2(
+					_elm_lang$core$Basics_ops['++'],
+					_Bogdanp$elm_route$Route$components(r),
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_Bogdanp$elm_route$Route$CSuffix(s)
+						]))
+			});
+	});
+var _Bogdanp$elm_route$Route_ops = _Bogdanp$elm_route$Route_ops || {};
+_Bogdanp$elm_route$Route_ops['<>'] = _elm_lang$core$Basics$flip(_Bogdanp$elm_route$Route$suffix);
+var _Bogdanp$elm_route$Route$and = F2(
+	function (lr, rr) {
+		return _Bogdanp$elm_route$Route$Route(
+			{
+				parser: A2(
+					_Bogdanp$elm_combine$Combine_Infix_ops['<*>'],
+					A2(
+						_Bogdanp$elm_combine$Combine_Infix_ops['<$>'],
+						F2(
+							function (v0, v1) {
+								return {ctor: '_Tuple2', _0: v0, _1: v1};
+							}),
+						A2(
+							_Bogdanp$elm_combine$Combine_Infix_ops['<*'],
+							_Bogdanp$elm_route$Route$parser(lr),
+							_Bogdanp$elm_combine$Combine$string('/'))),
+					_Bogdanp$elm_route$Route$parser(rr)),
+				components: A2(
+					_elm_lang$core$Basics_ops['++'],
+					_Bogdanp$elm_route$Route$components(lr),
+					_Bogdanp$elm_route$Route$components(rr))
+			});
+	});
+var _Bogdanp$elm_route$Route_ops = _Bogdanp$elm_route$Route_ops || {};
+_Bogdanp$elm_route$Route_ops['</>'] = _Bogdanp$elm_route$Route$and;
+var _Bogdanp$elm_route$Route$static = function (s) {
+	return _Bogdanp$elm_route$Route$Route(
+		{
+			parser: A2(
+				_Bogdanp$elm_combine$Combine_Infix_ops['<$'],
+				{ctor: '_Tuple0'},
+				_Bogdanp$elm_combine$Combine$string(s)),
+			components: _elm_lang$core$Native_List.fromArray(
+				[
+					_Bogdanp$elm_route$Route$CPrefix(s)
+				])
+		});
+};
+var _Bogdanp$elm_route$Route$custom = function (p) {
+	var validator = function (s) {
+		var _p15 = A2(_Bogdanp$elm_combine$Combine$parse, p, s);
+		if (_p15._0.ctor === 'Ok') {
+			return _elm_lang$core$Result$Ok(
+				{ctor: '_Tuple0'});
+		} else {
+			return _elm_lang$core$Result$Err(
+				A2(_elm_lang$core$String$join, ' or ', _p15._0._0));
+		}
+	};
+	return _Bogdanp$elm_route$Route$Route(
+		{
+			parser: p,
+			components: _elm_lang$core$Native_List.fromArray(
+				[
+					_Bogdanp$elm_route$Route$CCustom(validator)
+				])
+		});
+};
+var _Bogdanp$elm_route$Route$string = _Bogdanp$elm_route$Route$Route(
+	{
+		parser: _Bogdanp$elm_combine$Combine$regex('[^/]+'),
+		components: _elm_lang$core$Native_List.fromArray(
+			[_Bogdanp$elm_route$Route$CString])
+	});
+var _Bogdanp$elm_route$Route$int = _Bogdanp$elm_route$Route$Route(
+	{
+		parser: _Bogdanp$elm_combine$Combine_Num$int,
+		components: _elm_lang$core$Native_List.fromArray(
+			[_Bogdanp$elm_route$Route$CInt])
+	});
+var _Bogdanp$elm_route$Route$child = F2(
+	function (f, _p16) {
+		var _p17 = _p16;
+		return _Bogdanp$elm_route$Route$Route(
+			{
+				parser: A2(_Bogdanp$elm_combine$Combine_Infix_ops['<$>'], f, _p17._0),
+				components: _elm_lang$core$Native_List.fromArray(
+					[])
+			});
+	});
+var _Bogdanp$elm_route$Route$Router = function (a) {
+	return {ctor: 'Router', _0: a};
+};
+var _Bogdanp$elm_route$Route$router = function (rs) {
+	return _Bogdanp$elm_route$Route$Router(
+		_Bogdanp$elm_combine$Combine$choice(
+			A2(
+				_elm_lang$core$List$map,
+				function (r) {
+					return A2(
+						_Bogdanp$elm_combine$Combine_Infix_ops['<*'],
+						_Bogdanp$elm_route$Route$parser(r),
+						_Bogdanp$elm_combine$Combine$end);
+				},
+				rs)));
+};

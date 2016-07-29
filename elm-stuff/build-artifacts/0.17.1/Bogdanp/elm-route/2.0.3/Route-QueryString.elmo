@@ -1,0 +1,183 @@
+var _Bogdanp$elm_route$Route_QueryString$maybeParse = function (p) {
+	return function (_p0) {
+		return _elm_lang$core$Result$toMaybe(
+			_elm_lang$core$Basics$fst(
+				A2(_Bogdanp$elm_combine$Combine$parse, p, _p0)));
+	};
+};
+var _Bogdanp$elm_route$Route_QueryString$parameter = function () {
+	var param = F2(
+		function (k, v) {
+			return {
+				ctor: '_Tuple2',
+				_0: k,
+				_1: _evancz$elm_http$Http$uriDecode(v)
+			};
+		});
+	var value = _Bogdanp$elm_combine$Combine$regex('[^&]*');
+	var key = _Bogdanp$elm_combine$Combine$regex('[^=]+');
+	return A2(
+		_Bogdanp$elm_combine$Combine_Infix_ops['<*>'],
+		A2(
+			_Bogdanp$elm_combine$Combine_Infix_ops['<*'],
+			A2(_Bogdanp$elm_combine$Combine_Infix_ops['<$>'], param, key),
+			_Bogdanp$elm_combine$Combine$string('=')),
+		value);
+}();
+var _Bogdanp$elm_route$Route_QueryString$parameters = A2(
+	_Bogdanp$elm_combine$Combine_Infix_ops['<*'],
+	A2(
+		_Bogdanp$elm_combine$Combine$sepBy,
+		_Bogdanp$elm_combine$Combine$string('&'),
+		_Bogdanp$elm_route$Route_QueryString$parameter),
+	A2(
+		_Bogdanp$elm_combine$Combine$or,
+		_Bogdanp$elm_combine$Combine$skip(
+			_Bogdanp$elm_combine$Combine$string('#')),
+		_Bogdanp$elm_combine$Combine$end));
+var _Bogdanp$elm_route$Route_QueryString$query = function () {
+	var prepend = F2(
+		function (y, xs) {
+			var _p1 = xs;
+			if (_p1.ctor === 'Nothing') {
+				return _elm_lang$core$Maybe$Just(
+					_elm_lang$core$Native_List.fromArray(
+						[y]));
+			} else {
+				return _elm_lang$core$Maybe$Just(
+					A2(_elm_lang$core$List_ops['::'], y, _p1._0));
+			}
+		});
+	var collect = F2(
+		function (_p2, d) {
+			var _p3 = _p2;
+			return A3(
+				_elm_lang$core$Dict$update,
+				_p3._0,
+				prepend(_p3._1),
+				d);
+		});
+	return A2(
+		_Bogdanp$elm_combine$Combine_Infix_ops['<$>'],
+		A2(_elm_lang$core$List$foldr, collect, _elm_lang$core$Dict$empty),
+		A2(
+			_Bogdanp$elm_combine$Combine_Infix_ops['*>'],
+			_Bogdanp$elm_combine$Combine$maybe(
+				_Bogdanp$elm_combine$Combine$string('?')),
+			_Bogdanp$elm_route$Route_QueryString$parameters));
+}();
+var _Bogdanp$elm_route$Route_QueryString$int = _Bogdanp$elm_combine$Combine_Num$int;
+var _Bogdanp$elm_route$Route_QueryString$string = _Bogdanp$elm_combine$Combine$regex('.*');
+var _Bogdanp$elm_route$Route_QueryString$unwrap = function (q) {
+	var _p4 = q;
+	return _p4._0;
+};
+var _Bogdanp$elm_route$Route_QueryString$all = F2(
+	function (k, qs) {
+		return A2(
+			_elm_lang$core$Maybe$withDefault,
+			_elm_lang$core$Native_List.fromArray(
+				[]),
+			A2(
+				_elm_lang$core$Dict$get,
+				k,
+				_Bogdanp$elm_route$Route_QueryString$unwrap(qs)));
+	});
+var _Bogdanp$elm_route$Route_QueryString$many = F3(
+	function (p, k, qs) {
+		return A2(
+			_elm_lang$core$List$filterMap,
+			_Bogdanp$elm_route$Route_QueryString$maybeParse(p),
+			A2(_Bogdanp$elm_route$Route_QueryString$all, k, qs));
+	});
+var _Bogdanp$elm_route$Route_QueryString$one = F3(
+	function (p, k, qs) {
+		return _elm_lang$core$List$head(
+			A3(_Bogdanp$elm_route$Route_QueryString$many, p, k, qs));
+	});
+var _Bogdanp$elm_route$Route_QueryString$render = function (qs) {
+	var flatten = function (_p5) {
+		var _p6 = _p5;
+		return A2(
+			_elm_lang$core$List$map,
+			function (x) {
+				return A2(
+					_elm_lang$core$Basics_ops['++'],
+					_p6._0,
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						'=',
+						_evancz$elm_http$Http$uriEncode(x)));
+			},
+			_p6._1);
+	};
+	return A2(
+		F2(
+			function (x, y) {
+				return A2(_elm_lang$core$Basics_ops['++'], x, y);
+			}),
+		'?',
+		A2(
+			_elm_lang$core$String$join,
+			'&',
+			A2(
+				_elm_lang$core$List$concatMap,
+				flatten,
+				_elm_lang$core$Dict$toList(
+					_Bogdanp$elm_route$Route_QueryString$unwrap(qs)))));
+};
+var _Bogdanp$elm_route$Route_QueryString$QueryString = function (a) {
+	return {ctor: 'QueryString', _0: a};
+};
+var _Bogdanp$elm_route$Route_QueryString$empty = _Bogdanp$elm_route$Route_QueryString$QueryString(_elm_lang$core$Dict$empty);
+var _Bogdanp$elm_route$Route_QueryString$parse = function (s) {
+	var _p7 = A2(_Bogdanp$elm_combine$Combine$parse, _Bogdanp$elm_route$Route_QueryString$query, s);
+	if ((_p7.ctor === '_Tuple2') && (_p7._0.ctor === 'Ok')) {
+		return _Bogdanp$elm_route$Route_QueryString$QueryString(_p7._0._0);
+	} else {
+		return _Bogdanp$elm_route$Route_QueryString$empty;
+	}
+};
+var _Bogdanp$elm_route$Route_QueryString$add = F3(
+	function (k, v, qs) {
+		var prepend = function (xs) {
+			var _p8 = xs;
+			if (_p8.ctor === 'Nothing') {
+				return _elm_lang$core$Maybe$Just(
+					_elm_lang$core$Native_List.fromArray(
+						[v]));
+			} else {
+				return _elm_lang$core$Maybe$Just(
+					A2(_elm_lang$core$List_ops['::'], v, _p8._0));
+			}
+		};
+		return _Bogdanp$elm_route$Route_QueryString$QueryString(
+			A3(
+				_elm_lang$core$Dict$update,
+				k,
+				prepend,
+				_Bogdanp$elm_route$Route_QueryString$unwrap(qs)));
+	});
+var _Bogdanp$elm_route$Route_QueryString$remove = F2(
+	function (k, qs) {
+		return _Bogdanp$elm_route$Route_QueryString$QueryString(
+			A2(
+				_elm_lang$core$Dict$remove,
+				k,
+				_Bogdanp$elm_route$Route_QueryString$unwrap(qs)));
+	});
+var _Bogdanp$elm_route$Route_QueryString$filter = F3(
+	function (k, f, qs) {
+		var remove = function (xs) {
+			return A2(
+				_elm_lang$core$Maybe$map,
+				_elm_lang$core$List$filter(f),
+				xs);
+		};
+		return _Bogdanp$elm_route$Route_QueryString$QueryString(
+			A3(
+				_elm_lang$core$Dict$update,
+				k,
+				remove,
+				_Bogdanp$elm_route$Route_QueryString$unwrap(qs)));
+	});
