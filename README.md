@@ -9,4 +9,6 @@ Steps to reproduce
 
 Open both html files in your browser. `fresh.html` logs a successful decoing result, `cache.html` logs a decoding error.
 
+`Bogdanp/elm-route` defines an infix `:=`, which also exists in the `Json.Decode`. The chosen precedence depends on whether there are caches in `elm-stuff` or not.
+
 To circumvent this bug one should add parentheses to make the precedence explicit.
